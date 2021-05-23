@@ -27,21 +27,20 @@
 
  import enums.DayOfWeek.Sunday
  */
-package enums
+package enums:
   /**
    * EXERCISE 1
    * 
    * Convert this "sealed trait" to an enum.
    */
-  sealed trait DayOfWeek
-  object DayOfWeek:
-    case object Sunday extends DayOfWeek
-    case object Monday extends DayOfWeek
-    case object Tuesday extends DayOfWeek
-    case object Wednesday extends DayOfWeek
-    case object Thursday extends DayOfWeek
-    case object Friday extends DayOfWeek
-    case object Saturday extends DayOfWeek
+  enum DayOfWeek:
+    case Sunday extends DayOfWeek
+    case Monday extends DayOfWeek
+    case Tuesday extends DayOfWeek
+    case Wednesday extends DayOfWeek
+    case Thursday extends DayOfWeek
+    case Friday extends DayOfWeek
+    case Saturday extends DayOfWeek
 
   /**
    * EXERCISE 2
