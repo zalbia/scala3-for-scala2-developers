@@ -14,8 +14,20 @@
  * 
  * Enums and case classes provide first-class support for "algebraic data types" 
  * in Scala 3.
+
+ import enums.DayOfWeek.Monday
+
+ import enums.DayOfWeek.Tuesday
+
+ import enums.DayOfWeek.Wednesday
+
+ import enums.DayOfWeek.Thursday
+
+ import enums.DayOfWeek.Friday
+
+ import enums.DayOfWeek.Sunday
  */
-package enums: 
+package enums
   /**
    * EXERCISE 1
    * 
@@ -37,8 +49,9 @@ package enums:
    * Explore interop with Java enums by finding all values of `DayOfWeek`, and by 
    * finding the value corresponding to the string "Sunday".
    */
-  def daysOfWeek: Array[DayOfWeek] = ???
-  def sunday: DayOfWeek = ???
+  import DayOfWeek._
+  def daysOfWeek: Array[DayOfWeek] = Array(Monday, Tuesday, Wednesday, Thursday, Friday)
+  def sunday: DayOfWeek = Sunday
 
   /**
    * EXERCISE 3
@@ -47,12 +60,11 @@ package enums:
    * 
    * Take special note of the inferred type of any of the case constructors!
    */
-  sealed trait Color 
-  object Color:
-    case object Red extends Color 
-    case object Green extends Color 
-    case object Blue extends Color
-    final case class Custom(red: Int, green: Int, blue: Int) extends Color
+  enum Color:
+    case Red extends Color 
+    case Green extends Color 
+    case Blue extends Color
+    case Custom(red: Int, green: Int, blue: Int) extends Color
 
   /**
    * EXERCISE 4
@@ -61,31 +73,28 @@ package enums:
    * 
    * Take special note of the inferred type parameters in the case constructors!
    */
-  sealed trait Result[+Error, +Value]
-  object Result:
-    final case class Succeed[Value](value: Value) extends Result[Nothing, Value]
-    final case class Fail[Error](error: Error) extends Result[Error, Nothing]
+  enum Result[+Error, +Value]:
+    case Succeed[Value](value: Value) extends Result[Nothing, Value]
+    case Fail[Error](error: Error) extends Result[Error, Nothing]
 
-  /**
+  /*
    * EXERCISE 5
    * 
    * Convert this "sealed trait" to an enum.
    * 
    * Take special note of the inferred type parameters in the case constructors!
    */
-  sealed trait Workflow[-Input, +Output]
-  object Workflow:
-    final case class End[Output](value: Output) extends Workflow[Any, Output]
+  enum Workflow[-Input, +Output]:
+    case End[Output](value: Output) extends Workflow[Any, Output]
 
   /**
    * EXERCISE 6
    * 
    * Convert this "sealed trait" to an enum.
    */
-  sealed trait Conversion[-From, +To]
-  object Conversion:
-    case object AnyToString extends Conversion[Any, String]
-    case object StringToInt extends Conversion[String, Option[Int]]
+  enum Conversion[-From, +To]:
+    case AnyToString extends Conversion[Any, String]
+    case StringToInt extends Conversion[String, Option[Int]]
 
 /**
  * CASE CLASSES
@@ -99,9 +108,10 @@ package case_classes:
    * By making the public constructor private, make a smart constructor for `Email` so that only 
    * valid emails may be created.
    */
-  final case class Email(value: String)
+  final case class Email private (value: String)
   object Email:
-    def fromString(v: String): Option[Email] = ???
+    def fromString(v: String): Option[Email] =
+      if isValidEmail(v) then Some(Email(v)) else None
 
     def isValidEmail(v: String): Boolean = v.matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$")
 
@@ -112,6 +122,7 @@ package case_classes:
    * 
    */
   def changeEmail(email: Email): Email = ???
+    // email.copy() // it doesn't compile!!! 🎉
 
   /**
    * EXERCISE 3
@@ -120,6 +131,7 @@ package case_classes:
    * 
    */
   def caseClassApply(value: String): Email = ???
+    // Email(value) // it doesn't compile!!! 🎉
 
 /**
  * PATTERN MATCHING
