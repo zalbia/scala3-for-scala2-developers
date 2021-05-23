@@ -1,8 +1,6 @@
 import sbt.Keys._ 
 import sbt._ 
 
-val dottyVersion = "3.0.0-M3"
-
 lazy val root = project
   .in(file(""))
   .settings(
@@ -11,8 +9,7 @@ lazy val root = project
     scalacOptions ++= Seq(
       "-language:postfixOps",
       "-Ykind-projector",
-      "-Yexplicit-nulls",
-      "-source", "3.1"
+      "-Yexplicit-nulls"
     ),
-    scalaVersion := dottyVersion
+    scalaVersion := "3.0.0"
   )
