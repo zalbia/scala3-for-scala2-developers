@@ -246,6 +246,8 @@ object typeclass_graduation:
   object Person:
     import EncodeData.given
 
-    given EncodeData[Person] with
-      extension (p: Person) def encode: Data =
-        Data.Record(Map("name" -> p.name.encode, "age" -> p.age.encode))
+    given Conversion[Person, Map[String, Data]] with
+      def apply(p: Person): Map[String, Data] =
+        Map("name" -> p.name.encode, "age" -> p.age.encode)
+
+    given EncodeData[Person] = summon[EncodeData[Person]]
